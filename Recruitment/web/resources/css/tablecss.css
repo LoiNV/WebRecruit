@@ -1,0 +1,25 @@
+
+.centered  {
+    margin: 0px auto;
+    text-align: center;
+}
+
+.left {
+    float: left;   
+}
+
+.ui-datatable tr:hover{
+    background-color: #ffff99;
+}
+
+.ui-datatable tbody td.id,
+.ui-datatable tbody td.name,
+.ui-datatable tbody td.edit,
+.ui-datatable tbody td.date{    
+    text-align: center;
+}
+
+.ui-datatable tbody td.title{
+    white-space: normal;
+    word-wrap: break-word;
+}

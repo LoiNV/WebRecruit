@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./index.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <!-- Content -->
+        <section id="content">
+            <div class="container">
+                <!-- Main Content -->
+                <div class="main-content">
+
+                    <!-- Popular News -->
+                    <div class="">
+                        <h5 class="line"><span>Việc Làm</span></h5>
+                        <div class="outertight">
+                            <h:form> 
+                                <p:dataList var="n" value="#{newsBean.listSearch}" >
+                                    <h:commandLink action="${newsBean.detailsPage()}" >
+                                        <h:outputText value="#{n.name} (#{n.timeout})"/>
+                                        <f:setPropertyActionListener target="#{newsBean.selectedNews}" value="#{n}"/>
+                                    </h:commandLink>
+                                </p:dataList>
+                            </h:form>
+
+                        </div>
+
+                    </div>
+                    <!-- /Popular News -->
+                    
+                    <div class="pager" style="margin-top: 20px;">
+                        <ul>
+                            <li><a href="#" class="first-page"></a></li>
+                            <li><a href="#" class="active">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">6</a></li>
+                            <li><a href="#">7</a></li>
+                            <li><a href="#" class="last-page"></a></li>
+                        </ul>
+                    </div>
+
+                </div>
+                <!--  /Main Content -->
+
+                <!--  Left Sidebar -->
+                <div class="column-one-third">
+                    <div class="sidebar">
+                        <h5 class="line"><span>Stay Connected.</span></h5>
+                        <ul class="social">
+                            <li>
+                                <a href="#" class="facebook"><i class="icon-facebook"></i></a>
+                                <span>6,800 <br/> <i>fans</i></span>
+                            </li>
+                            <li>
+                                <a href="#" class="twitter"><i class="icon-twitter"></i></a>
+                                <span>12,475 <br/> <i>followers</i></span>
+                            </li>
+                            <li>
+                                <a href="#" class="rss"><i class="icon-rss"></i></a>
+                                <span><i>Subscribe via rss</i></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar">
+                        <h5 class="line"><span>Ads Spot.</span></h5>
+                        <ul class="ads125">
+                            <li><a href="#"><img src="" alt="" /></a></li>
+                            <li><a href="#"><img src="" alt="" /></a></li>
+                            <li><a href="#"><img src="" alt="" /></a></li>
+                            <li><a href="#"><img src="" alt="" /></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar">
+                        <h5 class="line"><span>Ads Spot.</span></h5>
+                        <a href="#"><img src="" alt="" /></a>     
+                    </div>
+
+                </div>
+                <!-- /Left Sidebar -->
+
+            </div>    
+        </section>
+        <!-- / Content -->
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template="./admin.xhtml">
+
+            <ui:define name="content">
+                <div id="page-add">
+
+                    <h2>Post News</h2>
+                    <h:form style="margin-left: 30px">  
+                        <p:messages id="msgs" showDetail="true" />
+
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <p:outputLabel for="title" value="Title:"/>
+                            <p:inputText id ="title" value="${newsBean.name}" required="true"
+                                         requiredMessage="Title not empty and maximum 100 character" 
+                                         onchange="this.value = this.value.trim()">
+                                <f:validateLength minimum="1" maximum="100"/>
+                            </p:inputText>
+                            <p:outputLabel/><p:outputLabel/>
+                            
+                            <p:outputLabel for="local" value="Local:"/>
+                            <p:selectOneMenu id="local" value="#{newsBean.local}">                            
+                                <f:selectItems value="#{newsBean.listLocal}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel/><p:outputLabel/>
+
+                            <p:outputLabel for="department" value="Department:"/>
+                            <p:selectOneMenu id="department" value="#{newsBean.department}">
+                                <f:selectItems value="#{newsBean.listDepartments}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel/><p:outputLabel/>
+
+                            <p:outputLabel for="timeout" value="TimeOut:"/>
+                            <p:calendar id="timeout" value="#{newsBean.timeout}" required="true"/>
+                            <p:outputLabel/><p:outputLabel/>
+
+                            <p:outputLabel for="quantity" value="Quantity "/>
+                            <p:inputText id="quantity" value="#{newsBean.quantity}" />
+                            <p:outputLabel/><p:outputLabel/>
+
+                            <p:outputLabel for="editor" value="Description: "/>
+                            <p:editor id="editor" widgetVar="editorWidget" value="#{newsBean.descript}" width="746" 
+                                      required="true" validatorMessage="Content length is less than allowable minimum of '10'"> 
+                                <f:validateLength minimum="10"/>
+                            </p:editor>
+                            <p:outputLabel/><p:outputLabel/>
+                            
+                            <p:outputLabel/>
+                            <h:panelGrid columns="2" style="margin-top: 10px; margin-bottom: 10px;" >
+                                <h:commandButton value="Publish" action="${newsBean.addNews()}" style="margin-right: 5px;"/>
+
+                                <h:commandButton value="Clear" type="button" onclick="PF('editorWidget').clear();" />
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:form>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>
+
