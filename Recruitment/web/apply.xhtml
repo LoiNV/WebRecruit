@@ -8,7 +8,7 @@
 
     <body>
 
-        <ui:composition template="./index.xhtml">
+        <ui:composition template="./indexTemplate.xhtml">
 
             <ui:define name="content">
                 <section id="content">
@@ -16,10 +16,10 @@
                         <!-- Main Content -->
                         <div class="main-content">
                             <div class="outertight">
-                                <h5 class="line"><span>ENTRY</span></h5>
+                                <h5 class="line"><span>Ứng Viên</span></h5>
                                 <div style="margin: 50px;">
                                     <h:form enctype="multipart/form-data">
-                                        <p:growl id="messages" showDetail="true" />
+                                        <p:growl id="msgs" showDetail="true" />
                                         <h:panelGrid columns="2" cellpadding="5">
                                             <p:outputLabel for="name" value="Name:"/>
                                             <p:inputText id="name" value="#{userBean.name}" required="true" style="width: 250px; height: 20px; margin-bottom: 10px;"/>
@@ -75,16 +75,16 @@
                             <div class="sidebar">
                                 <h5 class="line"><span>Ads Spot.</span></h5>
                                 <ul class="ads125">
-                                    <li><a href="#"><img src="" alt="" /></a></li>
-                                    <li><a href="#"><img src="" alt="" /></a></li>
-                                    <li><a href="#"><img src="" alt="" /></a></li>
-                                    <li><a href="#"><img src="" alt="" /></a></li>
+                                    <li><a href="#"><img src="resources/img/download.jpg" alt="" /></a></li>
+                                    <li><a href="#"><img src="resources/img/job-IT.jpg" alt="" /></a></li>
+                                    <li><a href="#"><img src="resources/img/Job-IT-Day.jpg" alt="" /></a></li>
+                                    <li><a href="#"><img src="resources/img/IT-job-growth-infographic.jpg" alt="" /></a></li>
                                 </ul>
                             </div>
 
                             <div class="sidebar">
                                 <h5 class="line"><span>Ads Spot.</span></h5>
-                                <a href="#"><img src="" alt="" /></a>     
+                                <a href="#"><img src="resources/img/images.jpg" alt="" /></a>     
                             </div>
 
                         </div>

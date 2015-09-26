@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./index.xhtml"
+                template="./indexTemplate.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -13,9 +13,14 @@
                 <!-- Main Content -->
                 <div class="main-content">
                     <div class="outertight">
-                        <h5 class="line"><span>Details</span></h5>
+                        <h5 class="line"><span>Chi Tiết</span></h5>
                         <div style="margin-left: 10px;">
-                            <p style="font-size: 14px;"><h:outputText value="#{newsBean.selectedNews.descript}"/><br/></p>
+                            <h3>#{newsBean.selectedNews.name}</h3>
+                            <h6>Số Lượng: #{newsBean.selectedNews.quantity}</h6>
+                            <h6>Địa Điểm: #{newsBean.selectedNews.local}</h6>
+                            <h6>Hạn Nộp Đơn: #{newsBean.selectedNews.timeout}</h6>
+                            
+                            <p style="font-size: 14px;"><h:outputText value="#{newsBean.selectedNews.descript}" escape="false"/><br/></p>
                             <h:form>
                                 <p:commandButton value="Apply Now" ajax="false" action="#{userBean.apply()}" >
                                     <f:param name="department" value="#{newsBean.selectedNews.department}"/>
@@ -49,16 +54,16 @@
                     <div class="sidebar">
                         <h5 class="line"><span>Ads Spot.</span></h5>
                         <ul class="ads125">
-                            <li><a href="#"><img src="" alt="" /></a></li>
-                            <li><a href="#"><img src="" alt="" /></a></li>
-                            <li><a href="#"><img src="" alt="" /></a></li>
-                            <li><a href="#"><img src="" alt="" /></a></li>
+                            <li><a href="#"><img src="resources/img/download.jpg" alt="" /></a></li>
+                            <li><a href="#"><img src="resources/img/job-IT.jpg" alt="" /></a></li>
+                            <li><a href="#"><img src="resources/img/Job-IT-Day.jpg" alt="" /></a></li>
+                            <li><a href="#"><img src="resources/img/IT-job-growth-infographic.jpg" alt="" /></a></li>
                         </ul>
                     </div>
 
                     <div class="sidebar">
                         <h5 class="line"><span>Ads Spot.</span></h5>
-                        <a href="#"><img src="" alt="" /></a>     
+                        <a href="#"><img src="resources/img/images.jpg" alt="" /></a>     
                     </div>
 
                 </div>

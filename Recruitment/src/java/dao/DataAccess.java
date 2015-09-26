@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -41,7 +42,7 @@ public class DataAccess {
                 String descript = rs.getString("descript");
                 News news = new News(name, local, department, timeout, quantity, status, descript);
                 news.setId(id);
-                list.add(news);
+                list.add(news);                
             }
             conn.close();
         } catch (SQLException ex) {
@@ -64,20 +65,6 @@ public class DataAccess {
             int rows = pre.executeUpdate();
             conn.close();
             return rows > 0;
-        } catch (SQLException ex) {
-            Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-    
-    public boolean removeNews(int id) {
-        try {
-            Connection conn = DBUtil.getConnection();
-            PreparedStatement pre = conn.prepareStatement("delete tbl_news where id=?");
-            pre.setInt(1, id);
-            int rows = pre.executeUpdate();
-            conn.close();
-            return rows >0;
         } catch (SQLException ex) {
             Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -107,9 +94,9 @@ public class DataAccess {
         }
         return list;
     }
-    
-    public boolean addUser(User user){
-         try {
+
+    public boolean addUser(User user) {
+        try {
             Connection conn = DBUtil.getConnection();
             PreparedStatement pre = conn.prepareStatement("insert into tbl_user values (?,?,?,?,?)");
             pre.setString(1, user.getName());

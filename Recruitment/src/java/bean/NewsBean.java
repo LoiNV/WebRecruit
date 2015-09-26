@@ -6,23 +6,27 @@
 package bean;
 
 import dao.DataAccess;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import model.News;
 import org.primefaces.component.datatable.DataTable;
+import org.primefaces.context.RequestContext;
 
 /**
  *
  * @author Admin
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class NewsBean {
 
     private int id;
@@ -35,6 +39,7 @@ public class NewsBean {
     private String descript;
 
     private List<News> listNews;
+    private List<News> listAllNews;
     private List<News> listFiltered;
     private News selectedNews;
     private List<String> listLocal;
@@ -59,44 +64,62 @@ public class NewsBean {
             return "";
         }
     }
-
-    public String remove() {
-        News n = (News) newsTable.getRowData();
-        DataAccess da = new DataAccess();
-        boolean rs = da.removeNews(n.getId());
-        if (rs) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "News was Deleted"));
-        }else{
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Delete Failed"));
-        }
-        
-        return "";
-    }
-    
-    public String searchStringValueChanged(ValueChangeEvent vce) {
-
-        keySearch = (String) vce.getNewValue();
-        listSearch = new LinkedList<>();
-        for (News n : da.getAllNews()) {
-            if ((n.getName().toLowerCase()).contains(keySearch.toLowerCase())) {
-                listSearch.add(n);
-            } else {
-            }
-        }
-        return "search";
-    }
-
+   
     public String detailsPage() {
         return "detailsPage";
     }
 
+    public String searchNews() {
+        this.listSearch = new LinkedList<>();
+        for (News n : getListNews()) {
+            System.out.println(n.getName());
+            if ((n.getName().toLowerCase()).contains(keySearch.toLowerCase())) {
+                listSearch.add(n);
+            }
+        }
+        return "search?faces-redirect=true";
+    }
+    
+    public void sortList(List<News> list){
+        Collections.sort(list, new Comparator<News>() {
+
+            @Override
+            public int compare(News t, News t1) {
+                if (t.getId() > t1.getId()) {
+                    return -1;
+                }
+                if (t.getId() < t1.getId()) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+    }
+
     public List<News> getListNews() {
-        this.listNews = da.getAllNews();
+        java.sql.Date currentTime = new java.sql.Date((Calendar.getInstance().getTime()).getTime());
+        this.listNews = new LinkedList<>();
+        for (News n : da.getAllNews()) {
+            if (n.getTimeout().after(currentTime)) {
+                this.listNews.add(n);
+            }
+        }
+        sortList(listNews);
         return listNews;
     }
 
     public void setListNews(List<News> listNews) {
         this.listNews = listNews;
+    }
+
+    public List<News> getListAllNews() {
+        this.listAllNews = da.getAllNews();
+        sortList(listAllNews);
+        return listAllNews;
+    }
+
+    public void setListAllNews(List<News> listAllNews) {
+        this.listAllNews = listAllNews;
     }
 
     public List<News> getListFiltered() {
@@ -131,7 +154,7 @@ public class NewsBean {
         this.listDepartments = new LinkedList<>();
         listDepartments.add("Developer");
         listDepartments.add("Leader");
-        listDepartments.add("Project Manager");
+        listDepartments.add("ProjectManager");
         listDepartments.add("Tester");
         return listDepartments;
     }
@@ -227,5 +250,5 @@ public class NewsBean {
     public void setNewsTable(DataTable newsTable) {
         this.newsTable = newsTable;
     }
-    
+
 }

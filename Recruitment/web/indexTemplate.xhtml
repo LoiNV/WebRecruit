@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+        <title>FAI-Tuyển dụng</title>
+
+        <link rel="shortcut icon" href="resources/img/sms-4.ico" />
+        
+        <!-- STYLES -->
+        <h:outputStylesheet name="./css/fontello/fontello.css"/>
+        <h:outputStylesheet name="./css/ui.css"/>
+        <h:outputStylesheet name="./css/base.css"/>
+        <h:outputStylesheet name="./css/style.css"/>
+        <h:outputStylesheet name="./css/960.css"/>
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        
+    </h:head>
+    <h:body>
+        <div class="body-wrapper">
+            <div class="controller">
+                <div class="controller2">
+                    <div >
+                        <ui:insert name="top">
+                            <!-- Header -->
+                            <header id="header">
+                                <div class="container">
+                                    <div class="column">
+                                        <div class="logo">
+                                            <a href="index.xhtml"><img src="resources/images/logo.png" alt="" /></a>
+                                        </div>
+
+                                        <div class="search">
+                                            <h:form >
+                                                <h:panelGrid columns="2" style="width:220px; height: 25px; margin-top: 25px;" >
+                                                    <h:inputText id="search" value="#{newsBean.keySearch}" a:placeholder="Search"/>
+                                                    <p:commandButton action="#{newsBean.searchNews()}" icon="ui-icon-search"/>
+                                                </h:panelGrid>>
+                                                
+                                            </h:form>
+                                        </div>
+
+                                        <!-- Nav -->
+                                        <nav id="nav">
+                                            <ul class="sf-menu">
+                                                <li class="current"><a href="index.xhtml">Trang Chủ</a></li>
+                                                <li><a href="#">Giới Thiệu</a></li>
+                                                <li><a href="#">Tìm Việc</a></li>
+                                                <li><a href="#">Tạo Hồ Sơ</a></li>
+                                                <li><a href="#">Liên Hệ</a></li>
+                                                <li><a href="#">Hỏi Đáp</a></li>
+                                            </ul>
+                                        </nav>
+                                        <!-- /Nav -->
+                                    </div>
+                                </div>
+                            </header>
+                            <!-- /Header -->
+                        </ui:insert>
+
+                        <div class="center_content">
+                            <ui:insert name="content">
+                                
+                            </ui:insert>
+                        </div>
+
+                        <div>
+                            <ui:insert name="bottom">
+                                <!-- Footer -->
+                                <footer id="footer">
+                                    <div class="container">
+                                        <div class="column-one-fourth">
+                                            <h5 class="line"><span>Tweets.</span></h5>
+                                            <div id="tweets"></div>
+                                        </div>
+                                        <div class="column-one-fourth">
+                                            <h5 class="line"><span>Navigation.</span></h5>
+                                            <ul class="footnav">
+                                                <li><a href="index.xhtml"><i class="icon-right-open"></i>Trang Chủ</a></li>
+                                                <li><a href="#"><i class="icon-right-open"></i>Giới Thiệu</a></li>
+                                                <li><a href="#"><i class="icon-right-open"></i>Tìm Việc</a></li>
+                                                <li><a href="#"><i class="icon-right-open"></i>Tạo Hồ Sơ</a></li>
+                                                <li><a href="#"><i class="icon-right-open"></i>Liên Hệ</a></li>
+                                                <li><a href="#"><i class="icon-right-open"></i>Hỏi Đáp</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="column-one-fourth">
+                                            <h5 class="line"><span>Flickr Stream.</span></h5>
+                                            <div class="flickrfeed">
+                                                <ul id="basicuse" class="thumbs"><li class="hide"></li></ul>
+                                            </div>
+                                        </div>
+                                        <div class="column-one-fourth">
+                                            <h5 class="line"><span>About.</span></h5>
+                                            <p>Blandit rutrum, erat et egestas ultricies, dolor tortor egestas enim, quiste rhon cus sem purus eu sapien. Lorem ipsum dolor sit amet adipcising elit. Elit norem simuls tortor lorem adipcising purus mosteu dsapien egestas.</p>
+                                        </div>
+                                        <p class="copyright">Copyright 2013. All Rights Reserved</p>
+                                    </div>
+                                </footer>
+                                <!-- / Footer -->
+                            </ui:insert>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCRIPTS -->
+        <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+        <h:outputScript library="js" name="ui.js"/>
+
+    </h:body>
+</html>
+

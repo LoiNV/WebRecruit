@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -28,6 +30,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
+import model.News;
 import model.User;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.DefaultStreamedContent;
@@ -39,8 +42,8 @@ import org.primefaces.model.UploadedFile;
  * @author Admin
  */
 @ManagedBean
-@RequestScoped
-public class UserBean implements Serializable{
+@SessionScoped
+public class UserBean implements Serializable {
 
     private int id;
     private String name;
@@ -48,6 +51,10 @@ public class UserBean implements Serializable{
     private String phone;
     private String department;
     private String linkCV;
+
+    private String subject;
+    private String content;
+    private User selectUser;
 
     private List<User> listUser;
     private List<User> listFiltered;
@@ -66,7 +73,7 @@ public class UserBean implements Serializable{
         if (fileUp != null) {
             try {
                 String filePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/");
-                String fileName = fileUp.getFileName();                
+                String fileName = fileUp.getFileName();
                 InputStream is = fileUp.getInputstream();
 
                 OutputStream os = new FileOutputStream(new File(filePath + fileName));
@@ -84,7 +91,7 @@ public class UserBean implements Serializable{
 
                 FacesMessage msg = new FacesMessage("Success! " + fileName + " is uploaded.");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                
+
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
@@ -95,10 +102,14 @@ public class UserBean implements Serializable{
     public void downloadCV(User u) {
 
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream(u.getLinkCV());
-        fileDown = new DefaultStreamedContent(stream);
+        fileDown = new DefaultStreamedContent(stream, null, u.getLinkCV().replaceAll("/", ""));
     }
 
-    public void acceptUser() {
+    public String acceptUser() {
+        return "accept";
+    }
+
+    public String sendMail() {
         final String username = "loinv_c00615@fpt.aptech.ac.vn";
         final String password = "adukapro";
 
@@ -110,6 +121,7 @@ public class UserBean implements Serializable{
 
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
+                    @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(username, password);
                     }
@@ -120,42 +132,37 @@ public class UserBean implements Serializable{
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("thangpv_a05404@fpt.aptech.ac.vn"));
-            message.setSubject("Testing Subject");
-            message.setText("Dear Mail Crawler,"
-                    + "\n\n No spam to my email, please!");
+                    InternetAddress.parse(selectUser.getEmail()));
+            message.setSubject(this.subject);
+            message.setText(this.content);
 
             Transport.send(message);
 
-            System.out.println("Done");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Send Mail Successful"));
+            return "admin";
 
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Send Mail Successful"));
+            return "";
         }
+
     }
 
-    public String apply(){     
+    public String apply() {
         Map<String, String> param = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        this.department = param.get("department");        
+        this.department = param.get("department");
         return "apply";
     }
-    
+
     public String addUser() {
-        
-        
-//        Map<String, String> param = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-//        department = param.get("department"); 
-        
+
         this.linkCV = "/" + fileUp.getFileName();
-        System.out.println(department +"-"+ linkCV);
-        System.out.println(name +"-"+ email);
-        System.out.println(phone );
         User user = new User(name, email, phone, department, linkCV);
         boolean rs = da.addUser(user);
         if (rs) {
             uploadCV();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Submited Successful"));
-            return "admin";
+            return "index";
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Submited Failed"));
             return "";
@@ -164,11 +171,48 @@ public class UserBean implements Serializable{
 
     public List<User> getListUser() {
         this.listUser = da.getAllUser();
+        Collections.sort(listUser, new Comparator<User>() {
+
+            @Override
+            public int compare(User t, User t1) {
+                if (t.getId() > t1.getId()) {
+                    return -1;
+                }
+                if (t.getId() < t1.getId()) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
         return listUser;
     }
 
     public void setListUser(List<User> listUser) {
         this.listUser = listUser;
+    }
+
+    public User getSelectUser() {
+        return selectUser;
+    }
+
+    public void setSelectUser(User selectUser) {
+        this.selectUser = selectUser;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public int getId() {
