@@ -6,6 +6,7 @@
 package bean;
 
 import dao.DataAccess;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,15 +20,14 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import model.News;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.context.RequestContext;
 
 /**
  *
  * @author Admin
  */
 @ManagedBean
-@SessionScoped
-public class NewsBean {
+@RequestScoped
+public class NewsBean implements Serializable{
 
     private int id;
     private String name;

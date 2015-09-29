@@ -6,12 +6,12 @@
 package dao;
 
 import db.DBUtil;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,7 +23,7 @@ import model.User;
  *
  * @author Admin
  */
-public class DataAccess {
+public class DataAccess implements Serializable{
 
     public List<News> getAllNews() {
         List<News> list = new LinkedList<>();
@@ -82,9 +82,8 @@ public class DataAccess {
                 String name = rs.getString("name");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");
-                String department = rs.getString("department");
                 String linkCV = rs.getString("linkCV");
-                User user = new User(name, email, phone, department, linkCV);
+                User user = new User(name, email, phone, linkCV);
                 user.setId(id);
                 list.add(user);
             }
@@ -98,12 +97,11 @@ public class DataAccess {
     public boolean addUser(User user) {
         try {
             Connection conn = DBUtil.getConnection();
-            PreparedStatement pre = conn.prepareStatement("insert into tbl_user values (?,?,?,?,?)");
+            PreparedStatement pre = conn.prepareStatement("insert into tbl_user values (?,?,?,?)");
             pre.setString(1, user.getName());
             pre.setString(2, user.getEmail());
             pre.setString(3, user.getPhone());
-            pre.setString(4, user.getDepartment());
-            pre.setString(5, user.getLinkCV());
+            pre.setString(4, user.getLinkCV());
             int rows = pre.executeUpdate();
             conn.close();
             return rows > 0;

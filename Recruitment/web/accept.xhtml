@@ -19,7 +19,7 @@
 
                         <h:panelGrid columns="2" cellpadding="5">
                             <p:outputLabel for="subject" value="Subject: "/>
-                            <p:inputText id ="subject" value="${userBean.subject}" required="true"
+                            <p:inputText id ="subject" value="${userBean.subject}" required="true" size="50"
                                          requiredMessage="Title not empty and maximum 100 character" 
                                          onchange="this.value = this.value.trim()">
                                 <f:validateLength minimum="1" maximum="100"/>
@@ -27,11 +27,11 @@
                             <p:outputLabel/><p:outputLabel/>
                             
                             <p:outputLabel for="to" value="To: "/>
-                            <p:outputLabel id="to" value="#{userBean.selectUser.email}"/>
+                            <p:inputText id="to" value="#{userBean.email}" size="50"/>
                             <p:outputLabel/><p:outputLabel/>                            
 
                             <p:outputLabel for="editor" value="Content: "/>
-                            <p:editor id="editor" widgetVar="editorWidget" value="#{userBean.content}" width="746" 
+                            <p:editor id="editor" widgetVar="editorWidget" value="#{userBean.content}" width="746"
                                       required="true" validatorMessage="Content length is less than allowable minimum of '10'"> 
                                 <f:validateLength minimum="10"/>
                             </p:editor>

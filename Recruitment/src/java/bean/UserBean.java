@@ -33,6 +33,7 @@ import javax.servlet.ServletContext;
 import model.News;
 import model.User;
 import org.primefaces.component.datatable.DataTable;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
@@ -42,7 +43,7 @@ import org.primefaces.model.UploadedFile;
  * @author Admin
  */
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class UserBean implements Serializable {
 
     private int id;
@@ -54,13 +55,14 @@ public class UserBean implements Serializable {
 
     private String subject;
     private String content;
-    private User selectUser;
 
     private List<User> listUser;
     private List<User> listFiltered;
     private DataTable tableUser;
     private UploadedFile fileUp;
     private StreamedContent fileDown;
+    private String username;
+    private String password;
 
     DataAccess da = new DataAccess();
 
@@ -106,12 +108,12 @@ public class UserBean implements Serializable {
     }
 
     public String acceptUser() {
+        User u = (User) tableUser.getRowData();
+        this.email = u.getEmail();
         return "accept";
-    }
+    }   
 
     public String sendMail() {
-        final String username = "loinv_c00615@fpt.aptech.ac.vn";
-        final String password = "adukapro";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -132,7 +134,7 @@ public class UserBean implements Serializable {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(selectUser.getEmail()));
+                    InternetAddress.parse(this.email));
             message.setSubject(this.subject);
             message.setText(this.content);
 
@@ -148,16 +150,10 @@ public class UserBean implements Serializable {
 
     }
 
-    public String apply() {
-        Map<String, String> param = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        this.department = param.get("department");
-        return "apply";
-    }
-
     public String addUser() {
 
         this.linkCV = "/" + fileUp.getFileName();
-        User user = new User(name, email, phone, department, linkCV);
+        User user = new User(name, email, phone, linkCV);
         boolean rs = da.addUser(user);
         if (rs) {
             uploadCV();
@@ -189,14 +185,6 @@ public class UserBean implements Serializable {
 
     public void setListUser(List<User> listUser) {
         this.listUser = listUser;
-    }
-
-    public User getSelectUser() {
-        return selectUser;
-    }
-
-    public void setSelectUser(User selectUser) {
-        this.selectUser = selectUser;
     }
 
     public String getSubject() {
@@ -289,6 +277,22 @@ public class UserBean implements Serializable {
 
     public StreamedContent getFileDown() {
         return fileDown;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setFileDown(StreamedContent fileDown) {

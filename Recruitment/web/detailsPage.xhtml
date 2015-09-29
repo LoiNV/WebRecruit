@@ -16,15 +16,14 @@
                         <h5 class="line"><span>Chi Tiết</span></h5>
                         <div style="margin-left: 10px;">
                             <h3>#{newsBean.selectedNews.name}</h3>
+                            <h6>Vị Trí: #{newsBean.selectedNews.department}</h6>
                             <h6>Số Lượng: #{newsBean.selectedNews.quantity}</h6>
                             <h6>Địa Điểm: #{newsBean.selectedNews.local}</h6>
                             <h6>Hạn Nộp Đơn: #{newsBean.selectedNews.timeout}</h6>
                             
                             <p style="font-size: 14px;"><h:outputText value="#{newsBean.selectedNews.descript}" escape="false"/><br/></p>
                             <h:form>
-                                <p:commandButton value="Apply Now" ajax="false" action="#{userBean.apply()}" >
-                                    <f:param name="department" value="#{newsBean.selectedNews.department}"/>
-                                </p:commandButton>
+                                <p:commandButton value="Apply Now" ajax="false" action="apply.xhtml" />                                   
                             </h:form>
                         </div>
                     </div>
